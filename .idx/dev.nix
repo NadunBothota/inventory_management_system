@@ -8,6 +8,8 @@
     pkgs.php82
     pkgs.php82Packages.composer
     pkgs.nodejs_20
+    pkgs.mysql80
+    pkgs.phpmyadmin
   ];
   # Sets environment variables in the workspace
   env = {};
@@ -26,6 +28,13 @@
         default.openFiles = [ "README.md" "resources/views/welcome.blade.php" ];
       };
       # To run something each time the workspace is (re)started, use the `onStart` hook
+      onStart = {
+        mysql-start = ''
+          mkdir -p ~/.mysql
+          mysqld --initialize-insecure --user=mysql --datadir=~/.mysql
+          mysqld_safe --datadir=~/.mysql &
+        '';
+      };
     };
     # Enable previews and customize configuration
     previews = {
@@ -33,6 +42,10 @@
       previews = {
         web = {
           command = ["php" "artisan" "serve" "--port" "$PORT" "--host" "0.0.0.0"];
+          manager = "web";
+        };
+        phpmyadmin = {
+          command = ["php" "-S" "0.0.0.0:$PORT" "-t" "${pkgs.phpmyadmin}/phpmyadmin"];
           manager = "web";
         };
       };
