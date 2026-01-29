@@ -21,9 +21,7 @@
     workspace = {
       # Runs when a workspace is first created with this `dev.nix` file
       onCreate = {
-        # Example: install JS dependencies from NPM
-        # npm-install = "npm install";
-        # Open editors for the following files by default, if they exist:
+        
         default.openFiles = [ "README.md" "resources/views/welcome.blade.php" ];
       };
       # To run something each time the workspace is (re)started, use the `onStart` hook
